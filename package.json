@@ -1,0 +1,30 @@
+{
+  "name": "webtask-slackin",
+  "version": "1.0.0",
+  "description": "A webtask for sending out automated slack invites based on Slackin",
+  "main": "task.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/NotMyself/webtask-slackin.git"
+  },
+  "keywords": [
+    "webtask",
+    "slack"
+  ],
+  "author": "Bobby Johnson",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/NotMyself/webtask-slackin/issues"
+  },
+  "homepage": "https://github.com/NotMyself/webtask-slackin#readme",
+  "dependencies": {
+    "body-parser": "^1.18.2",
+    "express": "^4.16.2",
+    "request": "^2.83.0",
+    "request-promise": "^4.2.2",
+    "webtask-tools": "^3.2.0"
+  }
+}
