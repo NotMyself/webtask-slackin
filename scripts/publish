@@ -1,0 +1,10 @@
+#!/usr/bin/env bash
+
+./scripts/unpublish
+
+echo "publish"
+
+wt create task.js --name webtask-slackin \
+    --secrets-file .env \
+    --meta-file .meta \
+    --bundle

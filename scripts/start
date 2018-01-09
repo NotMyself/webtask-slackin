@@ -1,0 +1,5 @@
+#!/usr/bin/env bash
+
+echo "start"
+
+nodemon --exec "wt serve task.js --secrets-file .env --meta-file .meta --port 8080"

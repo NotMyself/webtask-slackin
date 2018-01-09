@@ -2,9 +2,11 @@
   "name": "webtask-slackin",
   "version": "1.0.0",
   "description": "A webtask for sending out automated slack invites based on Slackin",
-  "main": "task.js",
+  "private": true,
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "scripts/start",
+    "stop": "scripts/stop",
+    "publish": "scripts/publish"
   },
   "repository": {
     "type": "git",

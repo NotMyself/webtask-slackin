@@ -1,0 +1,5 @@
+#!/usr/bin/env bash
+
+echo "unpublish"
+
+wt rm webtask-slackin
