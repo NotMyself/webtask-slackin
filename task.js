@@ -1,13 +1,11 @@
 'use latest';
 
-import request from 'request-promise';
-import express from 'express';
-import { fromExpress } from 'webtask-tools';
-import bodyParser from 'body-parser';
+const request = require('request-promise');
+const express = require('express');
+const fromExpress = require('webtask-tools').fromExpress;
+const bodyParser = require('body-parser');
 
 const app = express();
-
-const team = 'ssdug';
 
 app.use(
   bodyParser.urlencoded({
@@ -16,9 +14,12 @@ app.use(
 );
 
 app.get('/', (req, res) => {
-  getUserInfo(req.webtaskContext.secrets.slack_token)
+  const team = req.webtaskContext.meta.team;
+  const token = req.webtaskContext.secrets.slack_token;
+
+  getUserInfo(team, token)
     .then((info) => {
-      res.send(renderForm(info));
+      res.send(renderForm(team, info));
     })
     .catch((err) => {
       res.status(500).send(err);
@@ -26,13 +27,15 @@ app.get('/', (req, res) => {
 });
 
 app.post('/invite', (req, res) => {
-  sendInvite({
-    token: req.webtaskContext.secrets.slack_token,
+  const team = req.webtaskContext.meta.team;
+  const token = req.webtaskContext.secrets.slack_token;
+  sendInvite(team, {
+    token,
     email: req.body.email
   })
     .then((info) => {
       console.log(info);
-      res.send(renderThanks());
+      res.send(renderThanks(team, info));
     })
     .catch((err) => {
       console.log(err);
@@ -58,27 +61,24 @@ app.get('/badge.svg', (req, res) => {
 
 module.exports = fromExpress(app);
 
-function getUserInfo(slack_token) {
+function getUserInfo(team, token) {
   const message = {
     uri: `https://${team}.slack.com/api/users.list`,
     qs: {
-      token: slack_token,
+      token,
       presence: true
     },
     json: true,
-    transform: (body) => {
-      console.log(body);
-      return {
-        total: body.members.length,
-        active: body.members.filter(user => user.presence === 'active').length
-      };
-    }
+    transform: body => ({
+      total: body.members.length,
+      active: body.members.filter(user => user.presence === 'active').length
+    })
   };
 
   return request.get(message);
 }
 
-function sendInvite(email) {
+function sendInvite(team, email) {
   const message = {
     uri: `https://${team}.slack.com/api/users.admin.invite`,
     qs: email,
@@ -88,7 +88,7 @@ function sendInvite(email) {
   return request.get(message);
 }
 
-function renderForm(info) {
+function renderForm(team, info) {
   info = info || { active: 0, total: 0 };
 
   return `
@@ -131,7 +131,7 @@ function renderForm(info) {
   `;
 }
 
-function renderThanks(info) {
+function renderThanks(team, info) {
   info = info || { active: 0, total: 0 };
 
   return `
