@@ -4,37 +4,40 @@ import request from 'request-promise';
 import express from 'express';
 import { fromExpress } from 'webtask-tools';
 import bodyParser from 'body-parser';
+
 const app = express();
 
 const team = 'ssdug';
 
-app.use(bodyParser.urlencoded({
+app.use(
+  bodyParser.urlencoded({
     extended: true
-}));
+  })
+);
 
 app.get('/', (req, res) => {
   getUserInfo(req.webtaskContext.secrets.slack_token)
-  .then(info => {
-    res.send(renderForm(info));
-  })
-  .catch(err => {
-    res.status(500).send(err);
-  });
+    .then((info) => {
+      res.send(renderForm(info));
+    })
+    .catch((err) => {
+      res.status(500).send(err);
+    });
 });
 
 app.post('/invite', (req, res) => {
   sendInvite({
     token: req.webtaskContext.secrets.slack_token,
-    email:req.body.email
+    email: req.body.email
   })
-  .then(info => {
-    console.log(info);
-    res.send(renderThanks());
-  })
-  .catch(err => {
-    console.log(err);
-    res.status(500).send(err);
-  });
+    .then((info) => {
+      console.log(info);
+      res.send(renderThanks());
+    })
+    .catch((err) => {
+      console.log(err);
+      res.status(500).send(err);
+    });
 });
 
 app.get('/slack.svg', (req, res) => {
@@ -44,52 +47,50 @@ app.get('/slack.svg', (req, res) => {
 
 app.get('/badge.svg', (req, res) => {
   getUserInfo(req.webtaskContext.secrets.slack_token)
-  .then(info => {
-    res.setHeader('Content-Type', 'image/svg+xml');
-    res.send(renderBadgeSvg(info));
-  })
-  .catch(err => {
-    res.status(500).send(err);
-  });
+    .then((info) => {
+      res.setHeader('Content-Type', 'image/svg+xml');
+      res.send(renderBadgeSvg(info));
+    })
+    .catch((err) => {
+      res.status(500).send(err);
+    });
 });
 
 module.exports = fromExpress(app);
 
 function getUserInfo(slack_token) {
   const message = {
-        uri: `https://${team}.slack.com/api/users.list`,
-        qs: {
-          token: slack_token,
-          presence: true
-        },
-        json: true,
-        transform: body => {
-          console.log(body);
-          return { 
-            total: body.members.length ,
-            active: body.members.filter(user => {
-              return 'active' === user.presence;
-            }).length
-          };
-        }
-    };
-  
+    uri: `https://${team}.slack.com/api/users.list`,
+    qs: {
+      token: slack_token,
+      presence: true
+    },
+    json: true,
+    transform: (body) => {
+      console.log(body);
+      return {
+        total: body.members.length,
+        active: body.members.filter(user => user.presence === 'active').length
+      };
+    }
+  };
+
   return request.get(message);
 }
 
 function sendInvite(email) {
   const message = {
-        uri: `https://${team}.slack.com/api/users.admin.invite`,
-        qs: email,
-        json: true
-    };
-  
+    uri: `https://${team}.slack.com/api/users.admin.invite`,
+    qs: email,
+    json: true
+  };
+
   return request.get(message);
 }
 
 function renderForm(info) {
   info = info || { active: 0, total: 0 };
-  
+
   return `
   <html>
     <head>
@@ -132,7 +133,7 @@ function renderForm(info) {
 
 function renderThanks(info) {
   info = info || { active: 0, total: 0 };
-  
+
   return `
   <html>
     <head>
@@ -325,7 +326,7 @@ function renderCss() {
 
 function renderBadgeSvg(info) {
   info = info || { active: 0, total: 0 };
-  
+
   return `
   <svg xmlns="http://www.w3.org/2000/svg" width="87" height="20">
     <rect rx="3" width="87" height="20" fill="#555"/>
@@ -358,4 +359,3 @@ function renderSlackSvg() {
 </svg>
   `;
 }
-
