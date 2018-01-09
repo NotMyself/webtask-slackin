@@ -29,6 +29,7 @@ app.get('/', (req, res) => {
 app.post('/invite', (req, res) => {
   const team = req.webtaskContext.meta.team;
   const token = req.webtaskContext.secrets.slack_token;
+
   sendInvite(team, {
     token,
     email: req.body.email
