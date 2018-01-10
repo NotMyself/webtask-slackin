@@ -26,7 +26,7 @@ app.get('/', (req, res) => {
     });
 });
 
-app.post('/invite', (req, res) => {
+app.post('/', (req, res) => {
   const team = req.webtaskContext.meta.team;
   const token = req.webtaskContext.secrets.slack_token;
 
@@ -117,7 +117,7 @@ function renderForm(team, info) {
             users online now of <b class="total">${info.total}</b>
             registered.
         </p>
-        <form id="invite" action="invite" method="post">
+        <form id="invite" method="post">
             <input type="email" name="email" placeholder="you@yourdomain.com" autofocus=true class="form-item" required>
             <button type="submit">Get my Invite</button>
         </form>
