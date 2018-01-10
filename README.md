@@ -10,13 +10,13 @@ Webtask Slackin is a Serverless implementation of [Guillermo Rauch](https://gith
 ## Usage
 To deploy the webtask from the command line, follow these steps:
 
+**Note:** These steps assume you have the [Wetask CLI](https://webtask.io/cli) installed and initialized.
+
 1. Clone the repository `git clone https://github.com/NotMyself/webtask-slackin.git`
 1. Update the `.meta` file to include your Slack team name
 1. Copy the `.env_example` file to a `.env` file
 1. Update the `.env` file to include your Slack API token
 1. Run the script `scripts/publish`
-
-**Note:** These steps assume you have the [Wetask CLI](https://webtask.io/cli) installed and initialized.
 
 The output will look like this:
 
