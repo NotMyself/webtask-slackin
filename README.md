@@ -38,5 +38,5 @@ You can find or generate your API test token at [api.slack.com/web](https://api.
 ```
 
 ```markdown
-[![Join us](https://{your wt container}.run.webtask.io/webtask-slackin/badge.svg)](https://wt-3f533296d128037c9af8381221f78dd6-0.run.webtask.io/webtask-slackin/)
+[![Join us](https://{your wt container}.run.webtask.io/webtask-slackin/badge.svg)](https://{your wt container}.run.webtask.io/webtask-slackin/)
 ```
