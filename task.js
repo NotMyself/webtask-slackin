@@ -34,9 +34,11 @@ app.post('/invite', (req, res) => {
     token,
     email: req.body.email
   })
-    .then((info) => {
-      console.log(info);
-      res.send(renderThanks(team, info));
+    .then((status) => {
+      console.log(status);
+      return getUserInfo(team, token).then((info) => {
+        res.send(renderThanks(team, info));
+      });
     })
     .catch((err) => {
       console.log(err);
@@ -50,7 +52,10 @@ app.get('/slack.svg', (req, res) => {
 });
 
 app.get('/badge.svg', (req, res) => {
-  getUserInfo(req.webtaskContext.secrets.slack_token)
+  const team = req.webtaskContext.meta.team;
+  const token = req.webtaskContext.secrets.slack_token;
+
+  getUserInfo(team, token)
     .then((info) => {
       res.setHeader('Content-Type', 'image/svg+xml');
       res.send(renderBadgeSvg(info));
@@ -112,7 +117,7 @@ function renderForm(team, info) {
             users online now of <b class="total">${info.total}</b>
             registered.
         </p>
-        <form id="invite" action="invite/" method="post">
+        <form id="invite" action="invite" method="post">
             <input type="email" name="email" placeholder="you@yourdomain.com" autofocus=true class="form-item" required>
             <button type="submit">Get my Invite</button>
         </form>
@@ -134,7 +139,6 @@ function renderForm(team, info) {
 
 function renderThanks(team, info) {
   info = info || { active: 0, total: 0 };
-
   return `
   <html>
     <head>
@@ -148,8 +152,8 @@ function renderThanks(team, info) {
             <div class="logo slack"></div>
         </div>
         <p>
-            Your invite to <b>${team.toUpperCase()}</b>
-            Slack invite is on it's way.
+            Your invite to <b>${team.toUpperCase()}</b> Slack 
+            <br /> invite is on it's way.
         </p>
         <p class="status">
             <b class="active">${info.active}</b>
