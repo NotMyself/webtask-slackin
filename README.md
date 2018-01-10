@@ -3,9 +3,9 @@
 Webtask Slackin is a Serverless implementation of [Guillermo Rauch](https://github.com/rauchg)'s [Slackin](https://github.com/rauchg/slackin) for [Webtask.io](https://webtask.io/). It is specifically intended to address cold start issues that smaller groups have when hosting on free tier cloud providers like Heroku & Azure. If you have every setup Slackin for your group and encountered broken badge images becuase of response timeouts, then Webtask Slackin is for you.
 
 ## Features
-- A landing page you can point users to to fill in their emails and recieve an invite (`https://slack.yourdomain.com`).
-- A SVG badge taht works well for static mediums (like GitHub README Pages).
-- Super simple deployment to Webtask.io.
+- A landing page you can point users to to fill in their emails and recieve an invite (`https://{your wt container}.run.webtask.io/webtask-slackin`).
+- A SVG badge that works well for static mediums (like GitHub README Pages).
+- Super simple deployment to [Webtask.io](https://webtask.io/).
 
 ## Usage
 To deploy the webtask from the command line, follow these steps:
