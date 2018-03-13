@@ -22,6 +22,19 @@
     "url": "https://github.com/NotMyself/webtask-slackin/issues"
   },
   "homepage": "https://github.com/NotMyself/webtask-slackin#readme",
+  "webtaskio": {
+    "name":"webtask-slackin",
+    "secrets": [{
+      "name":"slack_token",
+      "description": "The Slack authorization token used to access your Slack.",
+      "placeholder": "Slack Token"
+    }],
+    "meta": [{
+      "name":"team",
+      "description": "The team name for your slack instance, usually the first segment of your URL.",
+      "placeholder": "Slack Team Name"
+    }]
+  },
   "dependencies": {
     "body-parser": "^1.18.2",
     "express": "^4.16.2",
