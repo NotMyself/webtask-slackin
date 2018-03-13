@@ -1,4 +1,4 @@
-# Webtask Slackin [![Join us](https://webtasks.iamnotmyself.com/notmyself/ssdug-slackin/badge.svg)](https://webtasks.iamnotmyself.com/notmyself/ssdug-slackin/) [![Deploy](https://cdn.auth0.com/webtask/temp/button.svg)](https://webtask-button-hack.now.sh)
+# Webtask Slackin [![Join us](https://webtasks.iamnotmyself.com/notmyself/ssdug-slackin/badge.svg)](https://webtasks.iamnotmyself.com/notmyself/ssdug-slackin/)
 
 Webtask Slackin is a Serverless implementation of [Guillermo Rauch](https://github.com/rauchg)'s [Slackin](https://github.com/rauchg/slackin) for [Webtask.io](https://webtask.io/). It is specifically intended to address cold start issues that smaller groups have when hosting on free tier cloud providers like Heroku & Azure. If you have ever setup Slackin for your group and encountered broken badge images becuase of response timeouts, then Webtask Slackin is for you.
 
